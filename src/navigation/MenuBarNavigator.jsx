@@ -3,7 +3,7 @@ import React from "react"
 import { colors } from "../constants/colors"
 import CategoryStackNavigator from "./CategoryStackNavigator"
 import { StyleSheet, View } from 'react-native';
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator()
 
@@ -11,6 +11,7 @@ export default function MenuBarNavigator () {
     return (
         <Tab.Navigator
             screenOptions={({route}) => ({
+                tabBarShowLabel: false,
                 tabBarStyle: styles.tabBar
             })}
         >
@@ -24,7 +25,7 @@ export default function MenuBarNavigator () {
                                 <FontAwesome5
                                     name="shopify"
                                     size={24}
-                                    color={focused ? "black" : colors.teal600}
+                                    color={focused ? "black" : colors.teal400}
                                 />
                             </View>
                         )
@@ -65,6 +66,23 @@ export default function MenuBarNavigator () {
                     },
                 }}
                 />
+                <Tab.Screen
+                name="Account"
+                component={CategoryStackNavigator}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <View>
+                                <MaterialIcons
+                                    name="account-circle"
+                                    size={26}
+                                    color={focused ? "black" : colors.teal600}
+                                />
+                            </View>
+                        )
+                    },
+                }}
+                />
         </Tab.Navigator>
     )
 }
@@ -74,7 +92,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.color200,
         shadowColor: "black",
         elevation: 4,
-        borderRadius: 15,
+        borderRadius: 0,
         height: 60,
     }
 })
