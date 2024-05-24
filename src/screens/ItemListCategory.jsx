@@ -3,6 +3,7 @@ import { colors } from "../constants/colors"
 import ProductItem from "../components/ProductItem"
 import { useState, useEffect } from "react"
 import { useGetProductsByCategoryQuery } from "../services/shopServices"
+import Search from "../components/Search"
 
 const ItemListCategory = ({
   setCategorySelected = () => {},
@@ -27,12 +28,12 @@ const ItemListCategory = ({
       setError("Don't use digits")
       return
     }
-    //3 or more characters
-    const regexThreeOrMore = /[a-zA-Z]{3,}/
+    //2 or more characters
+    const regexThreeOrMore = /[a-zA-Z]{2,}/
     const hasThreeOrMoreChars = regexThreeOrMore.test(keyWord)
 
     if (!hasThreeOrMoreChars && keyWord.length) {
-      setError("Type 3 or more characters")
+      setError("Type 2 or more characters")
       return
     }
 
@@ -48,7 +49,11 @@ const ItemListCategory = ({
 
   return (
     <View style={styles.flatListContainer}>
-      
+      <Search
+        error={error}
+        onSearch={setKeyword}
+        goBack={() => navigation.goBack()}
+      />
       <FlatList
         data={productsFiltered}
         renderItem={({ item }) => (
