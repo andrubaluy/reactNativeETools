@@ -8,9 +8,6 @@ import { useGetCategoriesQuery } from "../services/shopServices"
 const CategoryHome = ({ route, navigation}) => {
   const {data: categories, error, isLoading} = useGetCategoriesQuery()
   
-
-  console.log(categories);
-
   return (
     <View style={styles.flatListContainer}>
       <FlatList

@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     color: colors.color200,
     textAlign: "center",
     fontSize: 20,
+    fontFamily: 'Callingstone'
   },
   card: {
     backgroundColor: colors.color900, 
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5, 
     marginVertical: 10, 
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    height: 130
   }
 })

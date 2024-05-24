@@ -13,13 +13,9 @@ const ItemListCategory = ({
   const [productsFiltered, setProductsFiltered] = useState([])
   const [error, setError] = useState("")
 
-   //const {category: categorySelected} = route.params
+   const {category: categorySelected} = route.params
 
-  const {data: productsFetched, error: errorFromFetch, isLoading} = useGetProductsByCategoryQuery("manuales")
-
-  console.log(productsFetched);
-  /* console.log(errorFromFetch);
-  console.log(isLoading); */
+  const {data: productsFetched, error: errorFromFetch, isLoading} = useGetProductsByCategoryQuery(categorySelected)
 
   useEffect(() => {
     //Products filtered by category
@@ -40,17 +36,14 @@ const ItemListCategory = ({
       return
     }
 
-    /* const productsPrefiltered = products.filter(
-      (product) => product.category === categorySelected
-    ) */
-    //Product filtered by name
-    // if (!isLoading) {
-    //   const productsFilter = productsFetched.filter((product) =>
-    //     product.title.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())
-    //   )
-    //   setProductsFiltered(productsFilter)
-    //   setError("")
-    // }
+    // Product filtered by name
+    if (!isLoading) {
+      const productsFilter = productsFetched.filter((product) =>
+        product.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())
+      )
+      setProductsFiltered(productsFilter)
+      setError("")
+    }
   }, [keyWord,  productsFetched, isLoading])
 
   return (
