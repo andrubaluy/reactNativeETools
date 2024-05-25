@@ -44,15 +44,17 @@ const styles = StyleSheet.create({
   },
   additionalStylesCard: {
     height: 180,
-    width: 250,
+    width: 300,
     margin: 10,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
+
   },
   textCategory: {
     width: "70%",
     color: colors.color200,
-    fontFamily: 'Callingstone'
+    fontFamily: 'Callingstone',
+    textAlign: "center"
   },
   pressable: {
     width: '100%',
