@@ -3,21 +3,20 @@ import { Button, Image, Modal, StyleSheet, Text, TouchableOpacity, View, useWind
 import { useGetProductByIdQuery } from "../services/shopServices";
 import { useDispatch } from "react-redux";
 import { colors } from "../constants/colors";
+import { addToCart } from "../features/Cart/cartSlice";
 
 const ItemDetail = ({ route, navigation }) => {
     const dispatch = useDispatch();
     const { productId: idSelected } = route.params;
     const { data: product, error, isLoading } = useGetProductByIdQuery(idSelected);
     const { width, height } = useWindowDimensions();
-    const isPortrait = width < height;
 
     const [modalVisible, setModalVisible] = useState(false);
     const [quantity, setQuantity] = useState(1);
 
     const handleAddCart = () => {
-        // dispatch(addToCart({ ...product, quantity })); // Dispatch the action to add product to cart with quantity
+        dispatch(addToCart({ ...product, quantity })); 
         setModalVisible(false);
-        console.log(`Product added to cart. Amount ${quantity}`);
     };
 
     return (
@@ -28,14 +27,14 @@ const ItemDetail = ({ route, navigation }) => {
             ) : error ? (
                 <Text>Error loading product</Text>
             ) : product ? (
-                <View style={isPortrait ? styles.mainContainer : styles.mainContainerLandscape}>
+                <View style={styles.mainContainer}>
                     <Image
                         source={{ uri: product.img }}
-                        style={isPortrait ? styles.image : styles.imageLandscape}
+                        style={styles.image}
                         resizeMode="cover"
                     />
-                    <View style={isPortrait ? styles.textContainer : styles.textContainerLandscape}>
-                        <Text style={{ ...styles.textFamily, textDecorationLine: "underline" }}>{product.name}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={{ ...styles.textFamily}}>{product.name}</Text>
                         <Text style={styles.textFamily}>{product.description}</Text>
                         <Text style={{ ...styles.price, ...styles.textFamily }}>${product.price.toFixed(2)}</Text>
                     </View>
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
+        backgroundColor: colors.color400,
     },
     mainContainer: {
         flexDirection: "column",
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         height: 200,
     },
     textContainer: {
-        flexDirection: "column",
+        flexDirection: "column",        
     },
     textContainerLandscape: {
         width: '50%',
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
         fontFamily: "Callingstone",
         fontSize: 15,
         fontWeight: "bold",
+        color: colors.color200,
     },
     buttonStyle: {
         marginTop: 10,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: colors.color400,
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
