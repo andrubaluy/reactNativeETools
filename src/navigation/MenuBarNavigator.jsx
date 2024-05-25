@@ -4,6 +4,7 @@ import { colors } from "../constants/colors"
 import CategoryStackNavigator from "./CategoryStackNavigator"
 import { StyleSheet, View } from 'react-native';
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import CartStackNavigator from "./CartStackNavigator";
 
 const Tab = createBottomTabNavigator()
 
@@ -34,7 +35,7 @@ export default function MenuBarNavigator () {
                 />
             <Tab.Screen
                 name="Cart"
-                component={CategoryStackNavigator}
+                component={CartStackNavigator}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

@@ -4,6 +4,7 @@ import { useGetProductByIdQuery } from "../services/shopServices";
 import { useDispatch } from "react-redux";
 import { colors } from "../constants/colors";
 import { addToCart } from "../features/Cart/cartSlice";
+import modalStyles from "../constants/modalStyles"
 
 const ItemDetail = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -50,19 +51,19 @@ const ItemDetail = ({ route, navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Select Quantity</Text>
-                        <View style={styles.counterContainer}>
+                <View style={modalStyles.modalContainer}>
+                    <View style={modalStyles.modalView}>
+                        <Text style={modalStyles.modalText}>Select Quantity</Text>
+                        <View style={modalStyles.counterContainer}>
                             <TouchableOpacity onPress={() => setQuantity(prev => Math.max(prev - 1, 1))}>
-                                <Text style={styles.counterButton}>-</Text>
+                                <Text style={modalStyles.counterButton}>-</Text>
                             </TouchableOpacity>
-                            <Text style={styles.counterText}>{quantity}</Text>
+                            <Text style={modalStyles.counterText}>{quantity}</Text>
                             <TouchableOpacity onPress={() => setQuantity(prev => prev + 1)}>
-                                <Text style={styles.counterButton}>+</Text>
+                                <Text style={modalStyles.counterButton}>+</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.modalButtonContainer}>
+                        <View style={modalStyles.modalButtonContainer}>
                             <Button title="Cancel" onPress={() => setModalVisible(false)} />
                             <Button title="Add" onPress={handleAddCart} />
                         </View>
@@ -128,49 +129,5 @@ const styles = StyleSheet.create({
     buttonStyle: {
         marginTop: 10,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colors.transparentBackground,
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: colors.color400,
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    counterContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    counterButton: {
-        fontSize: 30,
-        paddingHorizontal: 20,
-    },
-    counterText: {
-        fontSize: 20,
-        marginHorizontal: 10,
-    },
-    modalButtonContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-    },
+    
 });
