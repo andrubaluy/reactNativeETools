@@ -3,5 +3,6 @@ export const colors = {
     color600: '#54616f',
     color400: '#2F3C7E',
     color200: '#FBEAEB',
-    platinum: '#E0E1DD'
+    platinum: '#E0E1DD',
+    transparentBackground: '#00000080'
 }
