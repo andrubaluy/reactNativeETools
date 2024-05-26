@@ -16,7 +16,6 @@ const SignupScreen = ({ navigation }) => {
     const [triggerSignUp, result] = useSignUpMutation()
 
     useEffect(() => {
-        console.log("useEffect", result);
         if (result.isSuccess) {
             insertSession({
                 email: result.data.email,

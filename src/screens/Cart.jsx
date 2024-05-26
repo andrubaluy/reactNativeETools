@@ -23,7 +23,6 @@ const CartScreen = ({ navigation }) => {
         setIsConfirmOrder(true);
     }
     const handleCheckoutYes = () => {
-        console.log({items: cartItems, user: user, total: getTotal()});
         triggerPostOrder({items: cartItems, user: user, total: getTotal()});
         dispatch(emptyCart());
         setIsConfirmOrder(false);

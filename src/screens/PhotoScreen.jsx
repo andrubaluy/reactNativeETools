@@ -56,7 +56,6 @@ const PhotoScreen = ({ navigation }) => {
             }
             navigation.goBack()
         } catch (error) {
-            console.log(error);
         }
     }
 

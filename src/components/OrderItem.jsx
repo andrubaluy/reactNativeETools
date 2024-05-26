@@ -10,7 +10,6 @@ const OrderItem = ({
 }) => {
 
   const dispatch = useDispatch()
-    console.log(order);
   const getTotalUnitItems = () => {
     return order.items.reduce((sum, item) => sum + item.quantity, 0);
   }

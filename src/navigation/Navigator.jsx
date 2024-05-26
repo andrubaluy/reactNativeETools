@@ -22,7 +22,6 @@ export default function Navitagor() {
               }))
             }
           } catch (error) {
-            console.log(error);
           }
         })()
       }, [])
