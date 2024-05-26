@@ -28,7 +28,8 @@ export default StyleSheet.create({
         textAlign: "center",
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.color200
+        color: colors.color200,
+        fontFamily: "Callingstone"
     },
     counterContainer: {
         flexDirection: "row",
@@ -38,16 +39,46 @@ export default StyleSheet.create({
     counterButton: {
         fontSize: 30,
         paddingHorizontal: 20,        
-        color: colors.color200
+        color: colors.color200,
+        fontFamily: "Callingstone"
     },
     counterText: {
         fontSize: 20,
         marginHorizontal: 10,
-        color: colors.color200
+        color: colors.color200,
+        fontFamily: "Callingstone"
     },
     modalButtonContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         width: "100%",
+    },
+    input: {
+        width: '100%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        fontFamily: "Callingstone"
+    },
+    modalContent: {
+        width: '80%',
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        fontFamily: "Callingstone"
+    },
+    modalButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
     },
 });

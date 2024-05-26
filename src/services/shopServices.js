@@ -1,8 +1,10 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseUrl } from '../database/realtimeDatabase'
 
 export const shopApi = createApi({
-    baseQuery: fetchBaseQuery({baseUrl: baseUrl}),
+    reducerPath: "shopApi",
+    baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+    tagTypes: ['profileImageGet'], 
     endpoints: (builder) => ({
         getCategories: builder.query({
             query: () => `categories.json`
@@ -23,8 +25,27 @@ export const shopApi = createApi({
                 if (responseTransformed.length) return responseTransformed[0]
                 return null
             }
+        }),
+        getProfileImage: builder.query({
+            query: (localId) => `profileImages/${localId}.json`,
+            providesTags: ['profileImageGet']
+        }),
+        //We make a PUT request for not creating additional key, because de localId is already an unique key.
+        postProfileImage: builder.mutation({
+            query: ({ image, localId }) => ({
+                url: `profileImages/${localId}.json`,
+                method: "PUT",
+                body: {
+                    image: image
+                },
+            }),
+            invalidatesTags: ['profileImageGet'] //Invalidates will trigger a refetch on profileImageGet
         })
     })
 })
 
-export const {useGetCategoriesQuery, useGetProductByIdQuery, useGetProductsByCategoryQuery} = shopApi
+export const { useGetCategoriesQuery,
+    useGetProductByIdQuery,
+    useGetProductsByCategoryQuery,
+    useGetProfileImageQuery,
+    usePostProfileImageMutation } = shopApi

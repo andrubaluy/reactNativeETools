@@ -16,12 +16,12 @@ const LoginScreen = ({ navigation }) => {
     const [triggerSignIn, result] = useSignInMutation()
 
     useEffect(() => {
-        console.log(result);
         if (result.isSuccess) {
             dispatch(
                 setUser({
                     email: result.data.email,
                     idToken: result.data.idToken,
+                    localId: result.data.localId
                 })
             )
         }
@@ -29,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
             if(result.error.data.error.message == "INVALID_LOGIN_CREDENTIALS"){
                 setErrorMessage("Invalid email or password");
             }else{
-                setErrorMessage("Invalid email or password");
+                setErrorMessage(result.error.data.error.message);
             }
         }
     }, [result])

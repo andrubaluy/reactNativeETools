@@ -5,6 +5,8 @@ import CategoryStackNavigator from "./CategoryStackNavigator"
 import { StyleSheet, View } from 'react-native';
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import CartStackNavigator from "./CartStackNavigator";
+import ProfileStackNavigator from "./ProfileStackNavigator";
+import OrderStackNavigator from "./OrderStackNavigator";
 
 const Tab = createBottomTabNavigator()
 
@@ -26,7 +28,7 @@ export default function MenuBarNavigator () {
                                 <FontAwesome5
                                     name="shopify"
                                     size={24}
-                                    color={focused ? "black" : colors.teal400}
+                                    color={focused ? colors.platinum : "black"}
                                 />
                             </View>
                         )
@@ -43,7 +45,7 @@ export default function MenuBarNavigator () {
                                 <FontAwesome5
                                     name="shopping-basket"
                                     size={24}
-                                    color={focused ? "black" : colors.teal600}
+                                    color={focused ? colors.platinum : "black"}
                                 />
                             </View>
                         )
@@ -52,7 +54,7 @@ export default function MenuBarNavigator () {
                 />
             <Tab.Screen
                 name="Orders"
-                component={CategoryStackNavigator}
+                component={OrderStackNavigator}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -60,7 +62,7 @@ export default function MenuBarNavigator () {
                                 <FontAwesome5
                                     name="money-check"
                                     size={24}
-                                    color={focused ? "black" : colors.teal600}
+                                    color={focused ? colors.platinum : "black"}
                                 />
                             </View>
                         )
@@ -68,8 +70,8 @@ export default function MenuBarNavigator () {
                 }}
                 />
                 <Tab.Screen
-                name="Account"
-                component={CategoryStackNavigator}
+                name="Profile"
+                component={ProfileStackNavigator}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -77,7 +79,7 @@ export default function MenuBarNavigator () {
                                 <MaterialIcons
                                     name="account-circle"
                                     size={26}
-                                    color={focused ? "black" : colors.teal600}
+                                    color={focused ? colors.platinum : "black"}
                                 />
                             </View>
                         )
