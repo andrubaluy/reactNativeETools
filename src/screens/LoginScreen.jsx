@@ -5,6 +5,7 @@ import parseErrorStack from 'react-native/Libraries/Core/Devtools/parseErrorStac
 import { useSignInMutation } from '../services/authService';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/user/userSlice';
+import { insertSession } from "../persistence"
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -17,19 +18,28 @@ const LoginScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (result.isSuccess) {
-            console.log(result.data);
-            dispatch(
-                setUser({
-                    email: result.data.email,
-                    idToken: result.data.idToken,
-                    localId: result.data.localId
+            insertSession({
+                email: result.data.email,
+                localId: result.data.localId,
+                token: result.data.idToken,
+            })
+                .then((response) => {
+                    dispatch(
+                        setUser({
+                            email: result.data.email,
+                            idToken: result.data.idToken,
+                            localId: result.data.localId
+                        })
+                    )
                 })
-            )
+                .catch((err) => {
+                    setErrorMessage("Unhandled error");
+                })
         }
-        if(result.isError){
-            if(result.error.data.error.message == "INVALID_LOGIN_CREDENTIALS"){
+        if (result.isError) {
+            if (result.error.data.error.message == "INVALID_LOGIN_CREDENTIALS") {
                 setErrorMessage("Invalid email or password");
-            }else{
+            } else {
                 setErrorMessage(result.error.data.error.message);
             }
         }
@@ -81,7 +91,7 @@ const LoginScreen = ({ navigation }) => {
                 <ActivityIndicator size="large" color="#0000ff" />
             ) : (
                 <Button title="Sign In" onPress={handleLogin} />
-            )}            
+            )}
             <Text style={styles.infoText}>Don't have an account?</Text>
             <Pressable onPress={() => navigation.navigate("SignUp")}>
                 <Text style={styles.subLink}>Create Account</Text>
@@ -122,7 +132,7 @@ const styles = StyleSheet.create({
 
     },
     subLink: {
-        marginTop:10,
+        marginTop: 10,
         fontSize: 14,
         color: colors.color600,
         fontFamily: "Callingstone"

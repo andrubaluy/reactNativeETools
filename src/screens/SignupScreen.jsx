@@ -4,6 +4,7 @@ import { colors } from '../constants/colors';
 import { useSignUpMutation } from '../services/authService';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/user/userSlice';
+import { insertSession } from "../persistence"
 
 const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -17,15 +18,25 @@ const SignupScreen = ({ navigation }) => {
     useEffect(() => {
         console.log("useEffect", result);
         if (result.isSuccess) {
-            dispatch(
-                setUser({
-                    email: result.data.email,
-                    idToken: result.data.idToken,
-                    localId: result.data.localId
+            insertSession({
+                email: result.data.email,
+                localId: result.data.localId,
+                token: result.data.idToken,
+            })
+                .then((response) => {
+                    dispatch(
+                        setUser({
+                            email: result.data.email,
+                            idToken: result.data.idToken,
+                            localId: result.data.localId
+                        })
+                    )
                 })
-            )
+                .catch((err) => {
+                    setErrorMessage("Unhandled error");
+                })
         }
-        if(result.isError){
+        if (result.isError) {
             const retMsg = result.error.data.error.message
             setErrorMessage(retMsg);
         }
@@ -52,7 +63,7 @@ const SignupScreen = ({ navigation }) => {
         }
 
         //Firebase authentication
-        triggerSignUp({email, password, returnSecureToken: true});
+        triggerSignUp({ email, password, returnSecureToken: true });
 
     };
 
@@ -90,7 +101,7 @@ const SignupScreen = ({ navigation }) => {
             <Pressable onPress={() => navigation.navigate("LogIn")}>
                 <Text style={styles.subLink}>Sign In</Text>
             </Pressable>
-            
+
         </View>
     );
 };
@@ -127,7 +138,7 @@ const styles = StyleSheet.create({
 
     },
     subLink: {
-        marginTop:10,
+        marginTop: 10,
         fontSize: 14,
         color: colors.color600,
         fontFamily: "Callingstone"

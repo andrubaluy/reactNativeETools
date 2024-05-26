@@ -4,6 +4,17 @@ import { Platform, SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import { colors } from './src/constants/colors';
 import { Provider } from 'react-redux';
 import store from "./src/store"
+import { initSQLiteDB } from './src/persistence';
+
+(async ()=> {
+  try {
+      const response = await initSQLiteDB()
+      console.log({responseCreatingDB: response});
+        console.log("DB initialized");
+  } catch (error) {
+      console.log({errorCreatingDB: error});
+  }
+})()
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({

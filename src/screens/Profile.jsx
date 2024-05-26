@@ -5,12 +5,13 @@ import modalStyles from '../constants/modalStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../features/user/userSlice';
 import { useGetProfileImageQuery } from '../services/shopServices';
+import { dropSessionsTable } from '../persistence';
 
 const Profile = ({ navigation }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const {email, imageCamera, localId} = useSelector(state => state.auth.value);
-    
+    const { email, imageCamera, localId } = useSelector(state => state.auth.value);
+
     const { data: imageFromBase } = useGetProfileImageQuery(localId);
     const dispatch = useDispatch()
 
@@ -23,11 +24,19 @@ const Profile = ({ navigation }) => {
         toggleModal();
     };
 
-    const handleLogout = () => {
-        dispatch(clearUser())
+    const handleLogout = async () => {
+        try {
+            const response = await truncateSessionsTable().then((response) => {
+                dispatch(clearUser())
+            })
+                .catch((err) => {
+                })
+        } catch (error) {
+
+        }
     }
 
-    const handleTakePicture = () =>{
+    const handleTakePicture = () => {
         navigation.navigate("Take Picture")
     }
 
@@ -40,7 +49,7 @@ const Profile = ({ navigation }) => {
                 <Button style={styles.button} title="Sign Out" onPress={handleLogout} />
             </View>
 
-            
+
         </View>
     );
 };
