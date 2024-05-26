@@ -17,6 +17,7 @@ const LoginScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (result.isSuccess) {
+            console.log(result.data);
             dispatch(
                 setUser({
                     email: result.data.email,

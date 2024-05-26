@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, FlatList, StyleSheet, Button, Image, Modal, TouchableOpacity } from 'react-native';
 import { colors } from '../constants/colors';
-import { removeFromCart, addToCart } from '../features/Cart/cartSlice';
+import { removeFromCart, addToCart, emptyCart } from '../features/Cart/cartSlice';
 import modalStyles from '../constants/modalStyles'
 import { usePostOrderMutation } from '../services/shopServices';
 
@@ -25,6 +25,8 @@ const CartScreen = ({ navigation }) => {
     const handleCheckoutYes = () => {
         console.log({items: cartItems, user: user, total: getTotal()});
         triggerPostOrder({items: cartItems, user: user, total: getTotal()});
+        dispatch(emptyCart());
+        setIsConfirmOrder(false);
     }
     const handleCheckoutNo = () => {
         setIsConfirmOrder(false);
@@ -47,6 +49,10 @@ const CartScreen = ({ navigation }) => {
     const handleCancelEdit = () => {
         setModalVisible(false);
     };
+
+    const handleClearCart = () => {
+        dispatch(emptyCart());
+    }
 
     const getTotal = () => {
         return cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0).toFixed(2);
@@ -93,7 +99,12 @@ const CartScreen = ({ navigation }) => {
                         </View>
                     </> :
                     <>
-                        {cartItems.length > 0 ? <Button title="Checkout" onPress={handleCheckout} /> : <Button title="Checkout" disabled={true} />}
+                        {cartItems.length > 0 ? 
+                        <View style={modalStyles.modalButtonContainer}>
+                        <Button title="Checkout" onPress={handleCheckout} />
+                        <Button title="Clear Cart" onPress={handleClearCart} />
+                    </View>   : 
+                        <Button title="Checkout" disabled={true} />}
                     </>}
             </View>
 

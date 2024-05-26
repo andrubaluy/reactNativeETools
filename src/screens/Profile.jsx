@@ -9,7 +9,7 @@ import { useGetProfileImageQuery } from '../services/shopServices';
 const Profile = ({ navigation }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const {email, imageCamera, localId} = useSelector(state => state.auth.value)
+    const {email, imageCamera, localId} = useSelector(state => state.auth.value);
     
     const { data: imageFromBase } = useGetProfileImageQuery(localId);
     const dispatch = useDispatch()

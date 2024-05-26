@@ -4,7 +4,7 @@ import { baseUrl } from '../database/realtimeDatabase'
 export const shopApi = createApi({
     reducerPath: "shopApi",
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
-    tagTypes: ['profileImageGet'], 
+    tagTypes: ['profileImageGet'],
     endpoints: (builder) => ({
         getCategories: builder.query({
             query: () => `categories.json`
@@ -12,7 +12,6 @@ export const shopApi = createApi({
         getProductsByCategory: builder.query({
             query: (category) => `products.json?orderBy="category"&equalTo="${category}"`,
             transformResponse: (response) => {
-                // console.log(response);
                 const responseTransformed = Object.values(response)
                 return responseTransformed
             }
@@ -20,7 +19,6 @@ export const shopApi = createApi({
         getProductById: builder.query({
             query: (productId) => `products.json?orderBy="id"&equalTo=${productId}`,
             transformResponse: (response) => {
-                // console.log(response);
                 const responseTransformed = Object.values(response)
                 if (responseTransformed.length) return responseTransformed[0]
                 return null
@@ -42,13 +40,24 @@ export const shopApi = createApi({
             invalidatesTags: ['profileImageGet'] //Invalidates will trigger a refetch on profileImageGet
         }),
         postOrder: builder.mutation({
-            query: ({...order}) => ({
+            query: (order) => ({
                 url: 'orders.json',
                 method: 'POST',
-                body: order
+                body: {
+                    ...order,
+                    "timestamp": new Date().getTime()
+                }
             })
+        }),
+        getOrdersByUser: builder.query({
+            query: (email) => `orders.json`,
+            transformResponse: (response) => {
+                const responseTransformed = Object.values(response)
+                if (responseTransformed.length) 
+                    return responseTransformed
+                return null
+            }
         })
-
     })
 })
 
@@ -57,5 +66,6 @@ export const { useGetCategoriesQuery,
     useGetProductsByCategoryQuery,
     useGetProfileImageQuery,
     usePostProfileImageMutation,
-    usePostOrderMutation
+    usePostOrderMutation,
+    useGetOrdersByUserQuery
 } = shopApi

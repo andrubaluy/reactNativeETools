@@ -5,35 +5,26 @@ import { colors } from "../constants/colors"
 import { useDispatch } from "react-redux"
 import { setIdSelected } from "../features/Shop/shopSlice"
 
-const ProductItem = ({
-  product,
-  navigation,
+const OrderItem = ({
+  order,
 }) => {
 
   const dispatch = useDispatch()
-  const handleNavigate = () => {
-    dispatch(setIdSelected(product.title))
-    navigation.navigate('ItemDetail', {productId: product.id})
+    console.log(order);
+  const getTotalUnitItems = () => {
+    return order.items.reduce((sum, item) => sum + item.quantity, 0);
   }
   return (
     <Card style={styles.additionalStylesCard}>
-      <Pressable
-        style={styles.pressable}
-        onPress={handleNavigate}
-      >
-        <Image
-          resizeMode="cover"
-          style={styles.image}
-          source={{ uri: product.img }}
-        />
-        <Text style={styles.textCategory}>{product.name}</Text>
-        
-      </Pressable>
+      
+        <Text style={styles.textCategory}>${order.total}</Text>
+        <Text> { `Total Items: ${getTotalUnitItems()}`} </Text>
+      
     </Card>
   )
 }
 
-export default ProductItem
+export default OrderItem
 
 const styles = StyleSheet.create({
   image: {
@@ -46,8 +37,8 @@ const styles = StyleSheet.create({
     width: 300,
     margin: 10,
     justifyContent: 'center',
-    alignItems: 'center'
-
+    alignItems: 'center',
+    borderWidth:2
   },
   textCategory: {
     width: "70%",
