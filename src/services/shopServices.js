@@ -40,7 +40,15 @@ export const shopApi = createApi({
                 },
             }),
             invalidatesTags: ['profileImageGet'] //Invalidates will trigger a refetch on profileImageGet
+        }),
+        postOrder: builder.mutation({
+            query: ({...order}) => ({
+                url: 'orders.json',
+                method: 'POST',
+                body: order
+            })
         })
+
     })
 })
 
@@ -48,4 +56,6 @@ export const { useGetCategoriesQuery,
     useGetProductByIdQuery,
     useGetProductsByCategoryQuery,
     useGetProfileImageQuery,
-    usePostProfileImageMutation } = shopApi
+    usePostProfileImageMutation,
+    usePostOrderMutation
+} = shopApi

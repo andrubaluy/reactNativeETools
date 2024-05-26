@@ -4,6 +4,7 @@ import { View, Text, FlatList, StyleSheet, Button, Image, Modal, TouchableOpacit
 import { colors } from '../constants/colors';
 import { removeFromCart, addToCart } from '../features/Cart/cartSlice';
 import modalStyles from '../constants/modalStyles'
+import { usePostOrderMutation } from '../services/shopServices';
 
 const CartScreen = ({ navigation }) => {
     const cartItems = useSelector((state) => state.cart.items);
@@ -14,9 +15,19 @@ const CartScreen = ({ navigation }) => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
+    const [isConfirmOrder, setIsConfirmOrder] = useState(false);
+    const [triggerPostOrder, result] = usePostOrderMutation()
+    const { user } = useSelector((state) => state.auth.value)
 
     const handleCheckout = () => {
-        console.log("Checkout!");
+        setIsConfirmOrder(true);
+    }
+    const handleCheckoutYes = () => {
+        console.log({items: cartItems, user: user, total: getTotal()});
+        triggerPostOrder({items: cartItems, user: user, total: getTotal()});
+    }
+    const handleCheckoutNo = () => {
+        setIsConfirmOrder(false);
     }
 
     const handleEditItem = (item) => {
@@ -27,9 +38,9 @@ const CartScreen = ({ navigation }) => {
 
     const handleUpdateQuantity = () => {
         dispatch(removeFromCart(selectedItem.id));
-        if (quantity >0){
-            dispatch(addToCart({ ...selectedItem, quantity })); 
-        }        
+        if (quantity > 0) {
+            dispatch(addToCart({ ...selectedItem, quantity }));
+        }
         setModalVisible(false);
     };
 
@@ -67,8 +78,23 @@ const CartScreen = ({ navigation }) => {
                 ListEmptyComponent={<Text style={styles.emptyText}>Your cart is empty.</Text>}
             />
             <View style={styles.totalContainer} visible={totalViewVisible}>
-                <Text style={styles.totalText}>Total: ${getTotal()}</Text>
-                {cartItems.length > 0 ? <Button title="Checkout" onPress={handleCheckout} /> : <Button title="Checkout" disabled={true}/>}
+                {isConfirmOrder ?
+                    <Text style={styles.totalText}>Are you sure you want to confirm the order? you will be charged: ${getTotal()}</Text>
+                    :
+                    <Text style={styles.totalText}>Total: ${getTotal()}</Text>
+                }
+
+
+                {isConfirmOrder ?
+                    <>
+                        <View style={modalStyles.modalButtonContainer}>
+                            <Button title="Yes" onPress={handleCheckoutYes} />
+                            <Button title="No" onPress={handleCheckoutNo} />
+                        </View>
+                    </> :
+                    <>
+                        {cartItems.length > 0 ? <Button title="Checkout" onPress={handleCheckout} /> : <Button title="Checkout" disabled={true} />}
+                    </>}
             </View>
 
             <Modal
